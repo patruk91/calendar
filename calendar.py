@@ -2,7 +2,10 @@ import upi
 
 
 def main():
-    upi.display_menu()
+    while True:
+        upi.display_schedule()
+        upi.display_menu()
+        upi.schedule_new_meeting()
 
 
 if __name__ == '__main__':

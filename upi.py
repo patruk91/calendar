@@ -16,12 +16,12 @@ def display_empty_schedule():
     print("(empty)\n")
 
 
-def display_schedule(data_meetings):
+def display_schedule_with_data(data_appointment):
     """
     Display schedule for the day.
     """
     print("Your schedule for the day:")
-    for data in data_meetings:
+    for data in data_appointment:
         # data == (start time, end time, title meeting)
         print("{} - {} {}" .format(data[1], data[2], data[0]))
 
@@ -37,29 +37,30 @@ def user_choice():
 
 def schedule_meeting():
     """
-    Save the new meeting.
-    :return: list with data: title, duration and start meeting
+    Ask user for new appointment and save it.
+    :return: list with data: title, start meeting, end meeting
     """
     print("Schedule a new meeting")
     title = get_meet_title()
     duration = get_meet_duration()
-    start = get_meet_start_time()
-    user_data = (title, int(start), int(duration) + int(start))
+    start_time = int(get_meet_start_time())
+    end_time = int(duration) + int(start_time)
+    user_data_appointment = (title, start_time, end_time)
     print("Meeting added.\n")
-    return user_data
+    return user_data_appointment
 
 
-def cancel_meeting(meetings):
+def cancel_meeting(appointments_data):
     print("Cancel an existing meeting")
-    start_meetings = [element[1] for element in meetings]
+    start_meetings = [start_time[1] for start_time in appointments_data]
     while True:
-        start = get_meet_start_time()
-        if int(start) not in start_meetings:
+        cancel_time = int(get_meet_start_time())
+        if cancel_time not in start_meetings:
             print("ERROR: There is no meeting starting at that time!")
         else:
-            indice = start_meetings.index(int(start))
-            del meetings[indice]
-            return meetings
+            indice_of_cancel_meet = start_meetings.index(cancel_time)
+            del appointments_data[indice_of_cancel_meet]
+            return appointments_data
 
 
 def get_meet_title():
@@ -81,7 +82,7 @@ def get_meet_duration():
         if check_is_number(duration) and int(duration) < 3:
             break
         else:
-            print("Please provide correct number!")
+            print("Please provide correct number (1 or 2)!")
     return duration
 
 

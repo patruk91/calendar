@@ -1,5 +1,3 @@
-
-
 def display_menu():
     """
     Display options for a meeting.
@@ -23,7 +21,6 @@ def display_schedule(data_meetings):
     Display schedule for the day.
     """
     print("Your schedule for the day:")
-    print(data_meetings)
     for data in data_meetings:
         # data == (start time, end time, title meeting)
         print("{} - {} {}" .format(data[1], data[2], data[0]))
@@ -38,20 +35,31 @@ def user_choice():
     return user_option
 
 
-def schedule_new_meeting():
+def schedule_meeting():
     """
     Save the new meeting.
     :return: list with data: title, duration and start meeting
     """
-    choice = user_choice()
-    if choice == "s":
-        print("Schedule a new meeting")
-        title = get_meet_title()
-        duration = get_meet_duration()
+    print("Schedule a new meeting")
+    title = get_meet_title()
+    duration = get_meet_duration()
+    start = get_meet_start_time()
+    user_data = (title, int(start), int(duration) + int(start))
+    print("Meeting added.\n")
+    return user_data
+
+
+def cancel_meeting(meetings):
+    print("Cancel an existing meeting")
+    start_meetings = [element[1] for element in meetings]
+    while True:
         start = get_meet_start_time()
-        user_data = (title, int(start), int(duration) + int(start))
-        print("Meeting added.\n")
-        return user_data
+        if int(start) not in start_meetings:
+            print("ERROR: There is no meeting starting at that time!")
+        else:
+            indice = start_meetings.index(int(start))
+            del meetings[indice]
+            return meetings
 
 
 def get_meet_title():

@@ -1,4 +1,3 @@
-data_meetings = []
 
 
 def display_menu():
@@ -11,15 +10,23 @@ def display_menu():
           "\n(q) quit")
 
 
-def display_schedule():
+def display_empty_schedule():
     """
     Display schedule for the day.
     """
     print("Your schedule for the day:")
-    if data_meetings == []:
-        print("(empty)\n")
-    else:
-        print(data_meetings)
+    print("(empty)\n")
+
+
+def display_schedule(data_meetings):
+    """
+    Display schedule for the day.
+    """
+    print("Your schedule for the day:")
+    print(data_meetings)
+    for data in data_meetings:
+        # data == (start time, end time, title meeting)
+        print("{} - {} {}" .format(data[1], data[2], data[0]))
 
 
 def user_choice():
@@ -42,10 +49,9 @@ def schedule_new_meeting():
         title = get_meet_title()
         duration = get_meet_duration()
         start = get_meet_start_time()
-        user_data = (title, duration, start)
-        data_meetings.append(user_data)
+        user_data = (title, int(start), int(duration) + int(start))
         print("Meeting added.\n")
-        return data_meetings
+        return user_data
 
 
 def get_meet_title():

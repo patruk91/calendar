@@ -2,10 +2,14 @@ import upi
 
 
 def main():
+    meetings = []
     while True:
-        upi.display_schedule()
+        if meetings == []:
+            upi.display_empty_schedule()
+        else:
+            upi.display_schedule(meetings)
         upi.display_menu()
-        upi.schedule_new_meeting()
+        meetings.append(upi.schedule_new_meeting())
 
 
 if __name__ == '__main__':

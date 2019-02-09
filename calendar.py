@@ -1,5 +1,6 @@
 import upi
 import storage
+import handlers
 
 
 def handle_day_schedule(appointments):
@@ -21,13 +22,13 @@ def main():
         upi.display_menu()
         choice = upi.user_choice()
         if choice == "s":
-            appointments_data.append(upi.schedule_meeting(appointments_data))
+            appointments_data.append(handlers.schedule_meeting(appointments_data))
             storage.save_to_file(appointments_data)
         elif choice == "c":
             if appointments_data == []:
                 print("ERROR: No meeting to cancel!\n")
             else:
-                updated_appointments = upi.cancel_meeting(appointments_data)
+                updated_appointments = handlers.cancel_meeting(appointments_data)
                 storage.remove_data_from_file(updated_appointments)
         else:
             break

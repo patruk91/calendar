@@ -1,6 +1,3 @@
-filename = "meetings.txt"
-
-
 def display_menu():
     """
     Display options for a meeting.
@@ -8,7 +5,6 @@ def display_menu():
     print("Menu:")
     print("(s) schedule a new meeting"
           "\n(c) cancel an existing meeting"
-          "\n(f) save fo file"
           "\n(q) quit")
 
 
@@ -140,39 +136,3 @@ def check_if_overlap(appointments_data, start_time, duration):
     if int(start_time) in busy_hours or int(start_time) + int(duration) -1 in busy_hours:
         return True
     return False
-
-
-def save_to_file(appointments_data):
-    """
-    Save information about meetings to the external file.
-    :param appointments_data: list of tuples with information about meetings
-    (start time, end time, title)
-    """
-    change_to_str = [[str(element) for element in data] for data in appointments_data]
-    with open(filename, "a") as file_object:
-        for line in change_to_str:
-            file_object.write(",".join(line) + "\n")
-
-
-def read_from_file():
-    """
-    Read data about appointments from external file.
-    """
-    appointments = []
-    with open(filename) as file_object:
-        for line in file_object:
-            appointments.append(tuple(line.rstrip().split(",")))
-        appointments = [tuple(int(value) if value.isdigit() else value for value in number) for number in appointments]
-        return appointments
-
-
-def remove_data_from_file(appointments_data):
-    """
-    Remove desired appointments from external file.
-    :param appointments_data: list of tuples with information about meetings
-    (start time, end time, title)
-    """
-    change_to_str = [[str(element) for element in data] for data in appointments_data]
-    with open(filename, "w") as file_object:
-        for line in change_to_str:
-            file_object.write(",".join(line) + "\n")

@@ -1,4 +1,5 @@
 import upi
+import data_manager_calendar as data_manager
 
 
 def handle_day_schedule(appointments):
@@ -15,20 +16,19 @@ def handle_day_schedule(appointments):
 def main():
     while True:
 
-        appointments_data = upi.read_from_file()
+        appointments_data = data_manager.read_from_file()
         handle_day_schedule(appointments_data)
         upi.display_menu()
         choice = upi.user_choice()
         if choice == "s":
             appointments_data.append(upi.schedule_meeting(appointments_data))
+            data_manager.save_to_file(appointments_data)
         elif choice == "c":
             if appointments_data == []:
                 print("ERROR: No meeting to cancel!\n")
             else:
                 updated_appointments = upi.cancel_meeting(appointments_data)
-                upi.remove_data_from_file(updated_appointments)
-        elif choice == "f":
-            upi.save_to_file(appointments_data)
+                data_manager.remove_data_from_file(updated_appointments)
         else:
             break
 

@@ -22,6 +22,8 @@ def main():
             appointments_data.append(upi.schedule_meeting(appointments_data))
         elif choice == "c":
             upi.cancel_meeting(appointments_data)
+        elif choice == "f":
+            upi.save_to_file(appointments_data)
         else:
             break
 

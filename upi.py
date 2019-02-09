@@ -1,3 +1,6 @@
+filename = "meetings.txt"
+
+
 def display_menu():
     """
     Display options for a meeting.
@@ -5,6 +8,7 @@ def display_menu():
     print("Menu:")
     print("(s) schedule a new meeting"
           "\n(c) cancel an existing meeting"
+          "\n(f) save fo file"
           "\n(q) quit")
 
 
@@ -23,7 +27,7 @@ def display_schedule_with_data(data_appointment):
     print("Your schedule for the day:")
     for data in data_appointment:
         # data == (start time, end time, title meeting)
-        print("{} - {} {}" .format(data[1], data[2], data[0]))
+        print("{} - {} {}" .format(data[0], data[1], data[2]))
 
 
 def user_choice():
@@ -45,14 +49,14 @@ def schedule_meeting(appointments_data):
     duration = get_meet_duration()
     start_time = int(get_meet_start_time(appointments_data, duration))
     end_time = int(duration) + int(start_time)
-    user_data_appointment = (title, start_time, end_time)
+    user_data_appointment = (start_time, end_time, title)
     print("Meeting added.\n")
     return user_data_appointment
 
 
 def cancel_meeting(appointments_data):
     print("Cancel an existing meeting")
-    start_meetings = [start_time[1] for start_time in appointments_data]
+    start_meetings = [start_time[0] for start_time in appointments_data]
     duration = 0
     while True:
         cancel_time = int(get_meet_start_time(appointments_data, duration))
@@ -124,7 +128,7 @@ def check_if_overlap(appointments_data, start_time, duration):
     :param duration: number, duration of the meeting
     :return: boolean True if they overlap
     """
-    meet_time = [(int(start_end[1]), int(start_end[2])) for start_end in appointments_data]
+    meet_time = [(int(start_end[0]), int(start_end[1])) for start_end in appointments_data]
     busy_hours = []
 
     for time_ in meet_time:
@@ -136,3 +140,12 @@ def check_if_overlap(appointments_data, start_time, duration):
     if int(start_time) in busy_hours or int(start_time) + int(duration) -1 in busy_hours:
         return True
     return False
+
+
+def save_to_file(appointments_data):
+    change_to_str = [[str(element) for element in data] for data in appointments_data]
+    print(change_to_str)
+    with open(filename, "a") as file_object:
+        for line in change_to_str:
+            file_object.write(",".join(line) + "\n")
+

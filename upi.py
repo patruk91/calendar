@@ -149,3 +149,11 @@ def save_to_file(appointments_data):
         for line in change_to_str:
             file_object.write(",".join(line) + "\n")
 
+
+def read_from_file():
+    appointments = []
+    with open(filename) as file_object:
+        for line in file_object:
+            appointments.append(tuple(line.rstrip().split(",")))
+        appointments = [tuple(int(value) if value.isdigit() else value for value in number) for number in appointments]
+        return appointments

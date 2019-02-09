@@ -15,6 +15,9 @@ def handle_day_schedule(appointments):
 def main():
     appointments_data = []
     while True:
+        print(appointments_data)
+        print(upi.read_from_file())
+        appointments_data = upi.read_from_file()
         handle_day_schedule(appointments_data)
         upi.display_menu()
         choice = upi.user_choice()

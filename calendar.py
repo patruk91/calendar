@@ -13,10 +13,8 @@ def handle_day_schedule(appointments):
 
 
 def main():
-    appointments_data = []
     while True:
-        print(appointments_data)
-        print(upi.read_from_file())
+
         appointments_data = upi.read_from_file()
         handle_day_schedule(appointments_data)
         upi.display_menu()
@@ -24,7 +22,11 @@ def main():
         if choice == "s":
             appointments_data.append(upi.schedule_meeting(appointments_data))
         elif choice == "c":
-            upi.cancel_meeting(appointments_data)
+            if appointments_data == []:
+                print("ERROR: No meeting to cancel!\n")
+            else:
+                updated_appointments = upi.cancel_meeting(appointments_data)
+                upi.remove_data_from_file(updated_appointments)
         elif choice == "f":
             upi.save_to_file(appointments_data)
         else:

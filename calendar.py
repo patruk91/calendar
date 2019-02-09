@@ -19,7 +19,7 @@ def main():
         upi.display_menu()
         choice = upi.user_choice()
         if choice == "s":
-            appointments_data.append(upi.schedule_meeting())
+            appointments_data.append(upi.schedule_meeting(appointments_data))
         elif choice == "c":
             upi.cancel_meeting(appointments_data)
         else:

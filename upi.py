@@ -55,9 +55,10 @@ def get_meet_duration():
     Ask user about duration of meeting
     :return: String with duration, number
     """
+    max_meet_duration = 3
     while True:
         duration = input("Enter duration in hours (1 or 2): ")
-        if handlers.check_is_number(duration) and int(duration) < 3:
+        if handlers.check_is_number(duration) and int(duration) < max_meet_duration:
             break
         else:
             print("ERROR: Number is not 1 or 2!")
@@ -71,25 +72,17 @@ def get_meet_start_time(appointments_data, duration):
     """
     while True:
         start_time = input("Enter start time: ")
-        if handle_border_conditions_for_time(appointments_data, start_time, duration):
+        if handlers.handle_border_conditions_for_time(appointments_data, start_time, duration):
             break
 
     return start_time
 
 
-def handle_border_conditions_for_time(appointments_data, start_time, duration):
+def display_total_meeting_duration(appointments_data):
     """
-    Check if provided time it is in given limits
-    :param appointments_data: list of list(with data: title, start meeting, end meeting)
-    :param start_time: number: ask user about start the meeting
-    :param duration: number: duration of the meeting
-    :return: boolean
+    Display total meeting duration.
+    :param appointments_data: list of list(with data: start meeting, end meeting, title)
     """
-    if handlers.check_is_number(start_time) and 8 <= int(start_time) < 18 and int(start_time) + int(duration) <= 18:
-        if duration != 0 and handlers.check_if_overlap(appointments_data, start_time, duration):
-            print("ERROR: Meeting overlaps with existing meeting!")
-        else:
-            return True
-    else:
-        print("ERROR: Meeting is outside of your working hours (8 to 18)!")
-    return False
+    print("Display the total meeting duration:")
+    hours = sum([abs(start_end[1] - start_end[0]) for start_end in appointments_data])
+    print("Appointments time: {} hours\n" .format(hours))

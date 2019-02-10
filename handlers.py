@@ -54,16 +54,6 @@ def compact_meetings(appointments_data):
     storage.save_to_file(appointments_data)
 
 
-def display_total_meeting_duration(appointments_data):
-    """
-    Display total meeting duration.
-    :param appointments_data: list of list(with data: start meeting, end meeting, title)
-    """
-    print("Display the total meeting duration:")
-    hours = sum([abs(start_end[1] - start_end[0]) for start_end in appointments_data])
-    print("Appointments time: {} hours\n" .format(hours))
-
-
 def edit_meeting(appointments_data):
     """
     Edit an existing meeting.
@@ -116,7 +106,7 @@ def update_by_duration(appointments_data, appointment_to_edit):
     while True:
         duration = int(upi.get_meet_duration())
         start_time = str(appointment_to_edit[0])
-        if upi.handle_border_conditions_for_time(appointments_data, start_time, duration):
+        if handle_border_conditions_for_time(appointments_data, start_time, duration):
             appointment_to_edit[1] = appointment_to_edit[0] + duration
             appointments_data.append(appointment_to_edit)
             storage.save_to_file(appointments_data)
@@ -202,6 +192,9 @@ def check_if_overlap(appointments_data, start_time, duration):
     """
     meet_time = [(int(start_end[0]), int(start_end[1])) for start_end in appointments_data]
     busy_hours = []
+    extra_hour = 1
+    # if we have meeting between 10-12, we have two hours (10-11,11-12)
+    # is need to be added to busy hours to check if overlap with another hour
 
     for time_ in meet_time:
         if time_[1] - time_[0] == 2:
@@ -210,6 +203,29 @@ def check_if_overlap(appointments_data, start_time, duration):
         else:
             busy_hours.append(time_[0])
 
-    if int(start_time) in busy_hours or int(start_time) + int(duration) - 1 in busy_hours:
+    if int(start_time) in busy_hours or int(start_time) + int(duration) - extra_hour in busy_hours:
         return True
+    return False
+
+
+def handle_border_conditions_for_time(appointments_data, start_time, duration):
+    """
+    Check if provided time it is in given limits
+    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param start_time: number: ask user about start the meeting
+    :param duration: number: duration of the meeting
+    :return: boolean
+    """
+    work_start = 8
+    work_end = 18
+    if check_is_number(start_time) and \
+            work_start <= int(start_time) < work_end and \
+            int(start_time) + int(duration) <= work_end:
+
+        if duration != 0 and check_if_overlap(appointments_data, start_time, duration):
+            print("ERROR: Meeting overlaps with existing meeting!")
+        else:
+            return True
+    else:
+        print("ERROR: Meeting is outside of your working hours (8 to 18)!")
     return False

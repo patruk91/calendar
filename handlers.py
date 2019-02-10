@@ -43,7 +43,7 @@ def edit_meeting(appointments_data):
     :return:
     """
     print("Edit an existing meeting")
-    chosen_meet = input("Enter the title of meeting, which you want to change:")
+    chosen_meet = get_correct_meet_title(appointments_data)
     appointment_to_edit = get_correct_appointment(appointments_data, chosen_meet)
     indice_of_meet = get_indice_meet_to_edit(appointments_data, chosen_meet)
 
@@ -55,6 +55,21 @@ def edit_meeting(appointments_data):
 
     if user_change == "a":
         update_by_time(appointments_data, appointment_to_edit, indice_of_meet)
+
+
+def get_correct_meet_title(appointments_data):
+    """
+    Ask user until he don't pickup correct appointment title.
+    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :return: string: title of meeting to edit
+    """
+    while True:
+        chosen_meet = input("Enter the title of meeting, which you want to change:")
+        meet_titles = [title[2] for title in appointments_data]
+        if chosen_meet in meet_titles:
+            return chosen_meet
+        else:
+            print("ERROR: There is no meeting title in appointments!")
 
 
 def update_by_time(appointments_data, appointment_to_edit, indice_of_meet):

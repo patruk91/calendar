@@ -55,6 +55,26 @@ def edit_meeting(appointments_data):
 
     if user_change == "a":
         update_by_time(appointments_data, appointment_to_edit, indice_of_meet)
+    elif user_change == "b":
+        update_by_duration(appointments_data, appointment_to_edit)
+
+
+def update_by_duration(appointments_data, appointment_to_edit):
+    """
+    Edit an existing meeting by duration and save to file.
+    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param appointment_to_edit: list: list to edit with data: start meeting, end meeting, title
+    :return: save data to file
+    """
+    appointments_data = [rec for rec in appointments_data if rec != tuple(appointment_to_edit)]
+    while True:
+        duration = int(upi.get_meet_duration())
+        start_time = str(appointment_to_edit[0])
+        if upi.handle_border_conditions_for_time(appointments_data, start_time, duration):
+            appointment_to_edit[1] = appointment_to_edit[0] + duration
+            appointments_data.append(appointment_to_edit)
+            storage.save_to_file(appointments_data)
+            break
 
 
 def get_correct_meet_title(appointments_data):
@@ -76,8 +96,9 @@ def update_by_time(appointments_data, appointment_to_edit, indice_of_meet):
     """
     Edit an existing meeting by time and save to file.
     :param appointments_data: list of list(with data: title, start meeting, end meeting)
-    :param appointment_to_edit: list: list to edit with data: title, start meeting, end meeting
+    :param appointment_to_edit: list: list to edit with data: start meeting, end meeting, title
     :param indice_of_meet: index in appointments_data, to edit this record
+    :return: save data to file
     """
     duration = abs(int(appointment_to_edit[0]) - appointment_to_edit[1])
     new_time = upi.get_meet_start_time(appointments_data, duration)
@@ -93,7 +114,7 @@ def get_correct_appointment(appointments_data, chosen_meet):
     Find correct record (appointment) to edit.
     :param appointments_data: list of list(with data: title, start meeting, end meeting)
     :param chosen_meet: string: title of meeting to edit
-    :return: list: list to edit with data: title, start meeting, end meeting
+    :return: list: list to edit with data: start meeting, end meeting, title
     """
     indice_of_meet = get_indice_meet_to_edit(appointments_data, chosen_meet)
     appointment_to_edit = list(appointments_data[indice_of_meet])
@@ -142,6 +163,7 @@ def check_if_overlap(appointments_data, start_time, duration):
             busy_hours.append(time_[0] + 1)
         else:
             busy_hours.append(time_[0])
-    if int(start_time) in busy_hours or int(start_time) + int(duration) -1 in busy_hours:
+
+    if int(start_time) in busy_hours or int(start_time) + int(duration) - 1 in busy_hours:
         return True
     return False

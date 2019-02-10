@@ -69,14 +69,24 @@ def get_meet_start_time(appointments_data, duration):
     """
     while True:
         start_time = input("Enter start time: ")
-        if handlers.check_is_number(start_time) and 8 <= int(start_time) < 18 and int(start_time) + int(duration) <= 18:
-            if duration != 0 and handlers.check_if_overlap(appointments_data, start_time, duration):
-                print("ERROR: Meeting overlaps with existing meeting!")
-            else:
-                break
+        if handle_border_conditions_for_time(appointments_data, start_time, duration):
+            break
         else:
             print("ERROR: Meeting is outside of your working hours (8 to 18)!")
     return start_time
 
 
-
+def handle_border_conditions_for_time(appointments_data, start_time, duration):
+    """
+    Check if provided time it is in given limits
+    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param start_time: number: ask user about start the meeting
+    :param duration: number: duration of the meeting
+    :return: boolean
+    """
+    if handlers.check_is_number(start_time) and 8 <= int(start_time) < 18 and int(start_time) + int(duration) <= 18:
+        if duration != 0 and handlers.check_if_overlap(appointments_data, start_time, duration):
+            print("ERROR: Meeting overlaps with existing meeting!")
+        else:
+            return True
+    return False

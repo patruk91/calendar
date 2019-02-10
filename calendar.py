@@ -29,7 +29,8 @@ def main():
             else:
                 updated_appointments = handlers.cancel_meeting(appointments_data)
                 storage.remove_data_from_file(updated_appointments)
-
+        elif choice == "e":
+            handlers.edit_meeting(appointments_data)
         else:
             break
 

@@ -8,7 +8,7 @@ def display_menu():
     print("Menu:")
     print("(s) schedule a new meeting"
           "\n(c) cancel an existing meeting"
-          
+          "\n(e) edit an existing meeting"
           "\n(q) quit")
 
 

@@ -1,4 +1,5 @@
 import upi
+import storage
 
 
 def schedule_meeting(appointments_data):
@@ -29,6 +30,40 @@ def cancel_meeting(appointments_data):
             del appointments_data[indice_of_cancel_meet]
             return appointments_data
 
+
+def edit_meeting(appointments_data):
+    print("Edit an existing meeting")
+    chosen_meet = input("Enter the title of meeting, which you want to change:")
+    appointment_to_edit = get_correct_appointment(appointments_data, chosen_meet)
+    indice_of_meet = get_indice_meet_to_edit(appointments_data, chosen_meet)
+
+    print("\nWhat do you want to change?:")
+    print("a) time"
+          "\nb) duration"
+          "\nc) title")
+    user_change = input("Your choice: ")
+
+    if user_change == "a":
+        duration = abs(int(appointment_to_edit[0]) - appointment_to_edit[1])
+        new_time = upi.get_meet_start_time(appointments_data, duration)
+        if new_time:
+            appointment_to_edit[0] = int(new_time)
+            appointment_to_edit[1] = appointment_to_edit[0] + duration
+            appointments_data[indice_of_meet] = appointment_to_edit
+            storage.save_to_file(appointments_data)
+
+
+def get_correct_appointment(appointments_data, chosen_meet):
+    indice_of_meet = get_indice_meet_to_edit(appointments_data, chosen_meet)
+    appointment_to_edit = list(appointments_data[indice_of_meet])
+    upi.display_schedule_with_data([appointment_to_edit])
+    return appointment_to_edit
+
+
+def get_indice_meet_to_edit(appointments_data, chosen_meet):
+    indice_of_meet = [indice for indice in range(len(appointments_data))
+                      if chosen_meet == appointments_data[indice][2]][0]
+    return indice_of_meet
 
 def check_is_number(user_data):
     """

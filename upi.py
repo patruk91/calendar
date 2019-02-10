@@ -5,7 +5,7 @@ def display_menu():
     """
     Display options for a meeting.
     """
-    print("Menu:")
+    print("\nMenu:")
     print("(s) schedule a new meeting"
           "\n(c) cancel an existing meeting"
           "\n(e) edit an existing meeting"
@@ -71,8 +71,7 @@ def get_meet_start_time(appointments_data, duration):
         start_time = input("Enter start time: ")
         if handle_border_conditions_for_time(appointments_data, start_time, duration):
             break
-        else:
-            print("ERROR: Meeting is outside of your working hours (8 to 18)!")
+
     return start_time
 
 
@@ -89,4 +88,6 @@ def handle_border_conditions_for_time(appointments_data, start_time, duration):
             print("ERROR: Meeting overlaps with existing meeting!")
         else:
             return True
+    else:
+        print("ERROR: Meeting is outside of your working hours (8 to 18)!")
     return False

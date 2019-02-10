@@ -5,7 +5,7 @@ import storage
 def schedule_meeting(appointments_data):
     """
     Ask user for new appointment and save it.
-    :return: list with data: title, start meeting, end meeting
+    :return: list with data: start meeting, end meeting, title
     """
     print("Schedule a new meeting")
     title = upi.get_meet_title()
@@ -20,7 +20,7 @@ def schedule_meeting(appointments_data):
 def cancel_meeting(appointments_data):
     """
     Cancel an existing meeting.
-    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param appointments_data: list of list(with data: start meeting, end meeting, title)
     :return: list of list: updated appointments_data
     """
     print("Cancel an existing meeting")
@@ -39,7 +39,7 @@ def cancel_meeting(appointments_data):
 def edit_meeting(appointments_data):
     """
     Edit an existing meeting.
-    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param appointments_data: list of list(with data: start meeting, end meeting, title)
     :return:
     """
     print("Edit an existing meeting")
@@ -57,12 +57,30 @@ def edit_meeting(appointments_data):
         update_by_time(appointments_data, appointment_to_edit, indice_of_meet)
     elif user_change == "b":
         update_by_duration(appointments_data, appointment_to_edit)
+    elif user_change == "c":
+        update_by_title(appointments_data, appointment_to_edit, indice_of_meet)
+    else:
+        print("ERROR: Not available option!\n")
+
+
+def update_by_title(appointments_data, appointment_to_edit, indice_of_meet):
+    """
+    Edit an existing meeting by title and save to file.
+    :param appointments_data: list of list(with data: start meeting, end meeting, title)
+    :param appointment_to_edit: list: list to edit with data: start meeting, end meeting, title
+    :param indice_of_meet:index in appointments_data, to edit this record
+    :return: save data to file
+    """
+    title = upi.get_meet_title()
+    appointment_to_edit[2] = title
+    appointments_data[indice_of_meet] = appointment_to_edit
+    storage.save_to_file(appointments_data)
 
 
 def update_by_duration(appointments_data, appointment_to_edit):
     """
     Edit an existing meeting by duration and save to file.
-    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param appointments_data: list of list(with data: start meeting, end meeting, title)
     :param appointment_to_edit: list: list to edit with data: start meeting, end meeting, title
     :return: save data to file
     """
@@ -80,7 +98,7 @@ def update_by_duration(appointments_data, appointment_to_edit):
 def get_correct_meet_title(appointments_data):
     """
     Ask user until he don't pickup correct appointment title.
-    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param appointments_data: list of list(with data: start meeting, end meeting, title)
     :return: string: title of meeting to edit
     """
     while True:
@@ -95,7 +113,7 @@ def get_correct_meet_title(appointments_data):
 def update_by_time(appointments_data, appointment_to_edit, indice_of_meet):
     """
     Edit an existing meeting by time and save to file.
-    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param appointments_data: list of list(with data: start meeting, end meeting, title)
     :param appointment_to_edit: list: list to edit with data: start meeting, end meeting, title
     :param indice_of_meet: index in appointments_data, to edit this record
     :return: save data to file
@@ -112,7 +130,7 @@ def update_by_time(appointments_data, appointment_to_edit, indice_of_meet):
 def get_correct_appointment(appointments_data, chosen_meet):
     """
     Find correct record (appointment) to edit.
-    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param appointments_data: list of list(with data: start meeting, end meeting, title)
     :param chosen_meet: string: title of meeting to edit
     :return: list: list to edit with data: start meeting, end meeting, title
     """
@@ -125,7 +143,7 @@ def get_correct_appointment(appointments_data, chosen_meet):
 def get_indice_meet_to_edit(appointments_data, chosen_meet):
     """
     Find correct index in appointments_data, to edit this record
-    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param appointments_data: list of list(with data: start meeting, end meeting, title)
     :param chosen_meet: string: title of meeting to edit
     :return: number: index of meeting to edit
     """

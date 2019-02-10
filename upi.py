@@ -10,6 +10,7 @@ def display_menu():
           "\n(c) cancel an existing meeting"
           "\n(d) show total meeting duration"
           "\n(e) edit an existing meeting"
+          "\n(m) compact meetings"
           "\n(q) quit")
 
 

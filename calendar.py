@@ -33,6 +33,8 @@ def main():
             handlers.edit_meeting(appointments_data)
         elif choice == "d":
             handlers.display_total_meeting_duration(appointments_data)
+        elif choice == "m":
+            handlers.compact_meetings(appointments_data)
         else:
             break
 

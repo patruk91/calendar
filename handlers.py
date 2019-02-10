@@ -36,7 +36,29 @@ def cancel_meeting(appointments_data):
             return appointments_data
 
 
+def compact_meetings(appointments_data):
+    """
+    Feature that moves meetings to earliest possible time (starting from 8)
+    :param appointments_data: list of list(with data: start meeting, end meeting, title)
+    :return: save to file
+    """
+    appointments_data = [list(data) for data in appointments_data]
+    hours = [abs(start_end[1] - start_end[0]) for start_end in appointments_data]
+    start_hour = 8
+    # moves meetings to earliest possible time
+
+    for i in range(len(appointments_data)):
+        appointments_data[i][0] = start_hour
+        appointments_data[i][1] = start_hour + hours[i]
+        start_hour = appointments_data[i][1]
+    storage.save_to_file(appointments_data)
+
+
 def display_total_meeting_duration(appointments_data):
+    """
+    Display total meeting duration.
+    :param appointments_data: list of list(with data: start meeting, end meeting, title)
+    """
     print("Display the total meeting duration:")
     hours = sum([abs(start_end[1] - start_end[0]) for start_end in appointments_data])
     print("Appointments time: {} hours\n" .format(hours))

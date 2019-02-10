@@ -36,6 +36,12 @@ def cancel_meeting(appointments_data):
             return appointments_data
 
 
+def display_total_meeting_duration(appointments_data):
+    print("Display the total meeting duration:")
+    hours = sum([abs(start_end[1] - start_end[0]) for start_end in appointments_data])
+    print("Appointments time: {} hours\n" .format(hours))
+
+
 def edit_meeting(appointments_data):
     """
     Edit an existing meeting.

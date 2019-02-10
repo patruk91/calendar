@@ -31,6 +31,8 @@ def main():
                 storage.remove_data_from_file(updated_appointments)
         elif choice == "e":
             handlers.edit_meeting(appointments_data)
+        elif choice == "d":
+            handlers.display_total_meeting_duration(appointments_data)
         else:
             break
 

@@ -8,7 +8,7 @@ def save_to_file(appointments_data):
     (start time, end time, title)
     """
     change_to_str = [[str(element) for element in data] for data in appointments_data]
-    with open(filename, "a") as file_object:
+    with open(filename, "w") as file_object:
         for line in change_to_str:
             file_object.write(",".join(line) + "\n")
 

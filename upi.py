@@ -1,3 +1,6 @@
+import handlers
+
+
 def display_menu():
     """
     Display options for a meeting.
@@ -5,6 +8,7 @@ def display_menu():
     print("Menu:")
     print("(s) schedule a new meeting"
           "\n(c) cancel an existing meeting"
+          
           "\n(q) quit")
 
 
@@ -51,7 +55,7 @@ def get_meet_duration():
     """
     while True:
         duration = input("Enter duration in hours (1 or 2): ")
-        if check_is_number(duration) and int(duration) < 3:
+        if handlers.check_is_number(duration) and int(duration) < 3:
             break
         else:
             print("ERROR: Number is not 1 or 2!")
@@ -65,8 +69,8 @@ def get_meet_start_time(appointments_data, duration):
     """
     while True:
         start_time = input("Enter start time: ")
-        if check_is_number(start_time) and 8 <= int(start_time) < 18 and int(start_time) + int(duration) <= 18:
-            if duration != 0 and check_if_overlap(appointments_data, start_time, duration):
+        if handlers.check_is_number(start_time) and 8 <= int(start_time) < 18 and int(start_time) + int(duration) <= 18:
+            if duration != 0 and handlers.check_if_overlap(appointments_data, start_time, duration):
                 print("ERROR: Meeting overlaps with existing meeting!")
             else:
                 break

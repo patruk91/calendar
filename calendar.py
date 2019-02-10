@@ -16,7 +16,6 @@ def handle_day_schedule(appointments):
 
 def main():
     while True:
-
         appointments_data = storage.read_from_file()
         handle_day_schedule(appointments_data)
         upi.display_menu()
@@ -30,6 +29,7 @@ def main():
             else:
                 updated_appointments = handlers.cancel_meeting(appointments_data)
                 storage.remove_data_from_file(updated_appointments)
+
         else:
             break
 

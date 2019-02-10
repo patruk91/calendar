@@ -18,6 +18,11 @@ def schedule_meeting(appointments_data):
 
 
 def cancel_meeting(appointments_data):
+    """
+    Cancel an existing meeting.
+    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :return: list of list: updated appointments_data
+    """
     print("Cancel an existing meeting")
     start_meetings = [start_time[0] for start_time in appointments_data]
     duration = 0
@@ -32,6 +37,11 @@ def cancel_meeting(appointments_data):
 
 
 def edit_meeting(appointments_data):
+    """
+    Edit an existing meeting.
+    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :return:
+    """
     print("Edit an existing meeting")
     chosen_meet = input("Enter the title of meeting, which you want to change:")
     appointment_to_edit = get_correct_appointment(appointments_data, chosen_meet)
@@ -44,16 +54,32 @@ def edit_meeting(appointments_data):
     user_change = input("Your choice: ")
 
     if user_change == "a":
-        duration = abs(int(appointment_to_edit[0]) - appointment_to_edit[1])
-        new_time = upi.get_meet_start_time(appointments_data, duration)
-        if new_time:
-            appointment_to_edit[0] = int(new_time)
-            appointment_to_edit[1] = appointment_to_edit[0] + duration
-            appointments_data[indice_of_meet] = appointment_to_edit
-            storage.save_to_file(appointments_data)
+        update_by_time(appointments_data, appointment_to_edit, indice_of_meet)
+
+
+def update_by_time(appointments_data, appointment_to_edit, indice_of_meet):
+    """
+    Edit an existing meeting by time and save to file.
+    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param appointment_to_edit: list: list to edit with data: title, start meeting, end meeting
+    :param indice_of_meet: index in appointments_data, to edit this record
+    """
+    duration = abs(int(appointment_to_edit[0]) - appointment_to_edit[1])
+    new_time = upi.get_meet_start_time(appointments_data, duration)
+    if new_time:
+        appointment_to_edit[0] = int(new_time)
+        appointment_to_edit[1] = appointment_to_edit[0] + duration
+        appointments_data[indice_of_meet] = appointment_to_edit
+        storage.save_to_file(appointments_data)
 
 
 def get_correct_appointment(appointments_data, chosen_meet):
+    """
+    Find correct record (appointment) to edit.
+    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param chosen_meet: string: title of meeting to edit
+    :return: list: list to edit with data: title, start meeting, end meeting
+    """
     indice_of_meet = get_indice_meet_to_edit(appointments_data, chosen_meet)
     appointment_to_edit = list(appointments_data[indice_of_meet])
     upi.display_schedule_with_data([appointment_to_edit])
@@ -61,14 +87,21 @@ def get_correct_appointment(appointments_data, chosen_meet):
 
 
 def get_indice_meet_to_edit(appointments_data, chosen_meet):
+    """
+    Find correct index in appointments_data, to edit this record
+    :param appointments_data: list of list(with data: title, start meeting, end meeting)
+    :param chosen_meet: string: title of meeting to edit
+    :return: number: index of meeting to edit
+    """
     indice_of_meet = [indice for indice in range(len(appointments_data))
-                      if chosen_meet == appointments_data[indice][2]][0]
-    return indice_of_meet
+                      if chosen_meet == appointments_data[indice][2]]
+    return indice_of_meet[0]
+
 
 def check_is_number(user_data):
     """
     Check if user provided a number for duration and start time
-    :param user_data: parametr provided by user
+    :param user_data: parameter provided by user
     :return: boolean
     """
     if user_data.isdigit() and int(user_data) > 0:
